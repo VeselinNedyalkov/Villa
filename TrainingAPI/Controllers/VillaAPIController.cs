@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using TrainingAPI.Data;
 using TrainingAPI.Models.DTO;
@@ -9,10 +10,19 @@ namespace TrainingAPI.Controllers
     [ApiController]
     public class VillaAPIController : ControllerBase
     {
+        public ILogger<VillaAPIController> logger { get; }
+
+        public VillaAPIController(ILogger<VillaAPIController> _logger)
+        {
+            logger = _logger;
+        }
+
+
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public ActionResult<IEnumerable<VillaDTO>> GetVillas()
         {
+            logger.LogInformation("Getting all villas");
             return Ok(VillaStore.villasList);
         }
 
@@ -99,10 +109,41 @@ namespace TrainingAPI.Controllers
             }
 
             var villa = VillaStore.villasList.FirstOrDefault(x => x.Id == id);
+            if (villa == null)
+            {
+                return BadRequest();
+            }
+            
             villa.Name = villaDTO.Name;
             villa.Sqft = villaDTO.Sqft;
             villa.Occupancy = villaDTO.Occupancy;
 
+
+            return NoContent();
+        }
+
+
+        [HttpPatch("id", Name = "UpdatePartialVilla")]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        public IActionResult UpdatepaartialVilla(int id, JsonPatchDocument<VillaDTO> patchDTO)
+        {
+            if (patchDTO == null || id != 0)
+            {
+                return BadRequest();
+            }
+            var villa = VillaStore.villasList.FirstOrDefault(x => x.Id == id);
+            if (villa == null)
+            {
+                return BadRequest();
+            }
+
+            patchDTO.ApplyTo(villa, ModelState);
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
 
             return NoContent();
         }

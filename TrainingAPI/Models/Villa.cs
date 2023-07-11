@@ -4,6 +4,13 @@
     {
         public int Id { get; set; }
         public string Name { get; set; } = null!;
-        public string Description { get; set; } = null!;
+        public string Detaisl { get; set; } = null!;
+        public double Rate { get; set; }
+        public int Sqft { get; set; }
+        public int Occupancy { get; set; }
+        public string ImageUrl { get; set; } = null!;
+        public string Amenity { get; set; } = null!;
+        public DateTime CreatedTime { get; set; }
+        public DateTime UpdatedTime { get; set; }
     }
 }
