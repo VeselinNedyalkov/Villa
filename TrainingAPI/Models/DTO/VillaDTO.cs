@@ -9,7 +9,7 @@ namespace TrainingAPI.Models.DTO
         [Required]
         [MaxLength(30)]
         public string Name { get; set; } = null!;
-        public string Detaisl { get; set; } = null!;
+        public string Details { get; set; } = null!;
         [Required]
         public double Rate { get; set; }
         public int Occupancy { get; set; }
