@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using TrainingAPI.Data;
 using TrainingAPI.Models.DTO;
+using TrainingAPI.Repository.Contracts;
 
 namespace TrainingAPI.Controllers
 {
@@ -13,14 +14,14 @@ namespace TrainingAPI.Controllers
     public class VillaAPIController : ControllerBase
     {
         public ILogger<VillaAPIController> logger { get; }
-        private readonly AplicationDbContext db;
+        private readonly IRepository dbVilla;
         private readonly IMapper mapper;
 
         public VillaAPIController(ILogger<VillaAPIController> _logger,
-            AplicationDbContext _db, IMapper _mapper)
+            IRepository _dbVilla, IMapper _mapper)
         {
+            dbVilla = _dbVilla;
             mapper = _mapper;
-            db = _db;
             logger = _logger;
         }
 
