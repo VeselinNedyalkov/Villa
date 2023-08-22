@@ -30,8 +30,8 @@ namespace TrainingAPI.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<IEnumerable<VillaDTO>>> GetVillas()
         {
-            IEnumerable<Villa> villas = await db.Villas.ToListAsync();
-            return  Ok(mapper.Map<VillaDTO>(villas));
+            IEnumerable<Villa> villas = await dbVilla.GetAllAsync();
+            return  Ok(mapper.Map<List<VillaDTO>>(villas));
         }
 
         [HttpGet("id" , Name = "GetVilla")] //expect parameter id
@@ -44,7 +44,7 @@ namespace TrainingAPI.Controllers
             {
                 return BadRequest();
             }
-            var villa = await db.Villas.FirstOrDefaultAsync(x => x.Id == id);
+            var villa = await dbVilla.GetVillaAsync(u => u.Id == id);
 
             if (villa == null)
             {
@@ -63,7 +63,7 @@ namespace TrainingAPI.Controllers
             //we need this if we don`t use  [ApiController] for the class
             //if(ModelState.IsValid) { }
 
-            if(await db.Villas.FirstOrDefaultAsync(x => x.Name.ToLower() == createDto.Name) != null)
+            if(await dbVilla.GetVillaAsync(x => x.Name.ToLower() == createDto.Name) != null)
             {
                 ModelState.AddModelError("CustomNameError", "Villa already Exists!");
                 return BadRequest(ModelState);
@@ -75,8 +75,7 @@ namespace TrainingAPI.Controllers
 
            Villa model = mapper.Map<Villa>(createDto);
 
-            await db.Villas.AddAsync(model);
-            await db.SaveChangesAsync();
+            await dbVilla.CreateAsync(model);
             //create a route to the villa [HttpGet(Name = "GetVilla")] call the name send the ID and the VllaDTO
 
             return CreatedAtRoute("GetVilla" ,new {id = model.Id} ,createDto);
@@ -93,15 +92,14 @@ namespace TrainingAPI.Controllers
                 return BadRequest();
             }
 
-            var villa = await db.Villas.FirstOrDefaultAsync(x => x.Id == id);
+            var villa = await dbVilla.GetVillaAsync(x => x.Id == id);
 
             if (villa == null)
             {
                 return NotFound();
             }
 
-            db.Villas.Remove(villa);
-            await db.SaveChangesAsync();
+            dbVilla.RemoveAsync(villa);
 
             return NoContent();
         }
@@ -117,7 +115,7 @@ namespace TrainingAPI.Controllers
                 return BadRequest();
             }
 
-            var villa = await db.Villas.FirstOrDefaultAsync(x => x.Id == id);
+            var villa = await dbVilla.GetVillaAsync(x => x.Id == id);
             if (villa == null)
             {
                 return BadRequest();
@@ -125,8 +123,7 @@ namespace TrainingAPI.Controllers
 
             Villa model = mapper.Map<Villa>(updateDTO);
 
-            db.Villas.Update(model);
-            await db.SaveChangesAsync();
+            dbVilla.UpdateAsync(model);
 
             return NoContent();
         }
@@ -141,7 +138,7 @@ namespace TrainingAPI.Controllers
             {
                 return BadRequest();
             }
-            var villa =await db.Villas.AsNoTracking().FirstOrDefaultAsync(x => x.Id == id);
+            var villa = await dbVilla.GetVillaAsync(x => x.Id == id);
 
             if (villa == null)
             {
@@ -155,8 +152,7 @@ namespace TrainingAPI.Controllers
             Villa model = mapper.Map<Villa>(vila);
 
 
-            db.Villas.Update(model);
-            await db.SaveChangesAsync();
+            dbVilla.UpdateAsync(model);
 
             if (!ModelState.IsValid)
             {

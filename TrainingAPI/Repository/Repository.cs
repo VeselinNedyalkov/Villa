@@ -15,13 +15,13 @@ namespace TrainingAPI.Repository
             db = _db;
         }
 
-        public async Task Create(Villa entity)
+        public async Task CreateAsync(Villa entity)
         {
             await db.Villas.AddAsync(entity);
             await Save();
         }
 
-        public async Task<List<Villa>> GetAll(Expression<Func<Villa, bool>> filter = null)
+        public async Task<List<Villa>> GetAllAsync(Expression<Func<Villa, bool>> filter = null)
         {
             IQueryable<Villa> query = db.Villas;
 
@@ -33,7 +33,7 @@ namespace TrainingAPI.Repository
             return await query.ToListAsync();
         }
 
-        public async Task<Villa> GetVilla(Expression<Func<Villa, bool>> filter = null, bool tracked = true)
+        public async Task<Villa> GetVillaAsync(Expression<Func<Villa, bool>> filter = null, bool tracked = true)
         {
             IQueryable<Villa> query = db.Villas;
 
@@ -50,7 +50,7 @@ namespace TrainingAPI.Repository
             return await query.FirstOrDefaultAsync();
         }
 
-        public async Task Remove(Villa entity)
+        public async Task RemoveAsync(Villa entity)
         {
             db.Villas.Remove(entity);
             await Save();
@@ -61,9 +61,10 @@ namespace TrainingAPI.Repository
             await db.SaveChangesAsync();
         }
 
-        public Task Update(Villa entity)
+        public async Task UpdateAsync(Villa entity)
         {
-            throw new NotImplementedException();
+            db.Update(entity);
+            await Save();
         }
     }
 }
