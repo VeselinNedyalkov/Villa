@@ -1,9 +1,6 @@
 ﻿using AutoMapper;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using TrainingAPI.Data;
 using TrainingAPI.Models.DTO;
 using TrainingAPI.Repository.Contracts;
 
@@ -54,7 +51,7 @@ namespace TrainingAPI.Controllers
             return Ok(mapper.Map<VillaDTO>(villa));
         }
 
-        [HttpPost]
+        [HttpPost(Name = "Create new villa")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
