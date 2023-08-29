@@ -1,12 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System.Linq.Expressions;
-using TrainingAPI.Data;
+﻿using TrainingAPI.Data;
 using TrainingAPI.Models.DTO;
 using TrainingAPI.Repository.Contracts;
 
 namespace TrainingAPI.Repository
 {
-    public class Repository : RepositoryGeneric<Villa> , IRepository
+    public class Repository : GenericRepository<Villa> , IRepository
     {
         private readonly AplicationDbContext db;
 

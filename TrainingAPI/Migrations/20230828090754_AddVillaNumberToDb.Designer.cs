@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TrainingAPI.Data;
 
@@ -11,9 +12,11 @@ using TrainingAPI.Data;
 namespace TrainingAPI.Migrations
 {
     [DbContext(typeof(AplicationDbContext))]
-    partial class AplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230828090754_AddVillaNumberToDb")]
+    partial class AddVillaNumberToDb
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -70,27 +73,27 @@ namespace TrainingAPI.Migrations
                         {
                             Id = 1,
                             Amenity = "",
-                            CreatedTime = new DateTime(2023, 8, 29, 15, 16, 18, 371, DateTimeKind.Local).AddTicks(2357),
+                            CreatedTime = new DateTime(2023, 8, 28, 12, 7, 54, 749, DateTimeKind.Local).AddTicks(8260),
                             Details = "Nice villa",
                             ImageUrl = "https://www.myluxoria.com/storage/app/uploads/public/630/77d/1e4/63077d1e4e7a2970728706.jpg",
                             Name = "Pool View",
                             Occupancy = 8,
                             Rate = 5.0,
                             Sqft = 100,
-                            UpdatedTime = new DateTime(2023, 8, 29, 15, 16, 18, 371, DateTimeKind.Local).AddTicks(2401)
+                            UpdatedTime = new DateTime(2023, 8, 28, 12, 7, 54, 749, DateTimeKind.Local).AddTicks(8302)
                         },
                         new
                         {
                             Id = 2,
                             Amenity = "",
-                            CreatedTime = new DateTime(2023, 8, 29, 15, 16, 18, 371, DateTimeKind.Local).AddTicks(2404),
+                            CreatedTime = new DateTime(2023, 8, 28, 12, 7, 54, 749, DateTimeKind.Local).AddTicks(8306),
                             Details = "10 people vilal with good villa",
                             ImageUrl = "https://media.architecturaldigest.com/photos/61b24b1bdf5163297d83ae8c/4:3/w_3763,h_2822,c_limit/Stella_Maris_Exterior.jpg",
                             Name = "Sea view",
                             Occupancy = 15,
                             Rate = 5.0,
                             Sqft = 120,
-                            UpdatedTime = new DateTime(2023, 8, 29, 15, 16, 18, 371, DateTimeKind.Local).AddTicks(2406)
+                            UpdatedTime = new DateTime(2023, 8, 28, 12, 7, 54, 749, DateTimeKind.Local).AddTicks(8307)
                         });
                 });
 
@@ -109,25 +112,9 @@ namespace TrainingAPI.Migrations
                     b.Property<DateTime>("UpdateDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("VillaID")
-                        .HasColumnType("int");
-
                     b.HasKey("VillaNo");
 
-                    b.HasIndex("VillaID");
-
                     b.ToTable("VillaNumbers");
-                });
-
-            modelBuilder.Entity("TrainingAPI.Models.VillaNumber", b =>
-                {
-                    b.HasOne("TrainingAPI.Models.DTO.Villa", "Villa")
-                        .WithMany()
-                        .HasForeignKey("VillaID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Villa");
                 });
 #pragma warning restore 612, 618
         }

@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using TrainingAPI.Models;
 using TrainingAPI.Models.DTO;
 
 namespace TrainingAPI.Data
@@ -12,7 +13,7 @@ namespace TrainingAPI.Data
                 
         }
         public DbSet<Villa> Villas { get; set; }
-
+        public DbSet<VillaNumber> VillaNumbers { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Villa>()

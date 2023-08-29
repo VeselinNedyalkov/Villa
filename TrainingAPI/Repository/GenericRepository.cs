@@ -6,12 +6,12 @@ using TrainingAPI.Repository.Contracts;
 
 namespace TrainingAPI.Repository
 {
-    public class RepositoryGeneric<T> : IRepopositoryGeneric<T> where T : class
+    public class GenericRepository<T> : IRepopositoryGeneric<T> where T : class
     {
         private readonly AplicationDbContext db;
         internal DbSet<T> dbSet;
 
-        public RepositoryGeneric(AplicationDbContext _db)
+        public GenericRepository(AplicationDbContext _db)
         {
             db = _db;
             this.dbSet = db.Set<T>();
