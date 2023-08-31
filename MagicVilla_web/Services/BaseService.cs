@@ -33,6 +33,7 @@ namespace MagicVilla_web.Services
                     message.Content = new StringContent(JsonConvert.SerializeObject(apiRequest.Data),
                         Encoding.UTF8, "application/json");
                 }
+
                 switch (apiRequest.ApiType)
                 {
                     case SD.ApiType.Post:
