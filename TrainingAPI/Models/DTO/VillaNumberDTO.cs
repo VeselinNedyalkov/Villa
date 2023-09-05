@@ -9,5 +9,7 @@ namespace TrainingAPI.Models.DTO
         [Required]
         public int VillaID { get; set; }
         public string SpecialDeails { get; set; }
+
+        public VillaDTO Villa { get; set; }
     }
 }

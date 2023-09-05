@@ -14,7 +14,8 @@ namespace TrainingAPI.Repository
         public GenericRepository(AplicationDbContext _db)
         {
             db = _db;
-            this.dbSet = db.Set<T>();
+            //db.VillaNumbers.Include(u => u.Villa).ToList();
+            dbSet = db.Set<T>();
         }
 
         public async Task CreateAsync(T entity)
@@ -23,19 +24,7 @@ namespace TrainingAPI.Repository
             await Save();
         }
 
-        public async Task<List<T>> GetAllAsync(Expression<Func<T, bool>> filter = null)
-        {
-            IQueryable<T> query = dbSet;
-
-            if (filter != null)
-            {
-                query = query.Where(filter);
-            }
-
-            return await query.ToListAsync();
-        }
-
-        public async Task<T> GetVillaAsync(Expression<Func<T, bool>> filter = null, bool tracked = true)
+        public async Task<T> GetVillaAsync(Expression<Func<T, bool>> filter = null, bool tracked = true, string? includeProperties = null)
         {
             IQueryable<T> query = dbSet;
 
@@ -49,8 +38,41 @@ namespace TrainingAPI.Repository
                 query = query.Where(filter);
             }
 
-            return await query.AsNoTracking().FirstOrDefaultAsync();
+            if (includeProperties != null)
+            {
+                foreach (var inlcude in includeProperties.Split(new char[] { ',' },
+                    StringSplitOptions.RemoveEmptyEntries))
+                {
+                    query = query.Include(inlcude);
+                }
+            }
+
+            return await query.FirstOrDefaultAsync();
         }
+
+        public async Task<List<T>> GetAllAsync(Expression<Func<T, bool>>? filter = null, string? includeProperties = null)
+        {
+            IQueryable<T> query = dbSet;
+            List<T> result = new();
+
+            if (filter != null)
+            {
+                query = query.Where(filter);
+            }
+
+            if (includeProperties != null)
+            {
+                foreach (var inlcude in includeProperties.Split(new char[] { ',' },
+                    StringSplitOptions.RemoveEmptyEntries))
+                {
+                    result = await query.Include(inlcude).ToListAsync();
+                }
+            }
+
+            return result;
+        }
+
+        
 
         public async Task RemoveAsync(T entity)
         {

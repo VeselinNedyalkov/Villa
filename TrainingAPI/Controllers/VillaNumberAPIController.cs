@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using Azure;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 using TrainingAPI.Models;
@@ -34,7 +33,7 @@ namespace TrainingAPI.Controllers
         {
             try
             {
-                IEnumerable<VillaNumber> villas = await dbVillaNumber.GetAllAsync();
+                IEnumerable<VillaNumber> villas = await dbVillaNumber.GetAllAsync(includeProperties: "Villa");
                 response.Result = mapper.Map<List<VillaNumberDTO>>(villas);
                 response.StatusCode = HttpStatusCode.OK;
                 return Ok(response);

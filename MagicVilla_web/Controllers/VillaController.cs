@@ -35,7 +35,7 @@ namespace MagicVilla_web.Controllers
             return View(list);
         }
 
-        
+
         public async Task<IActionResult> CreateVilla()
         {
 
@@ -46,7 +46,7 @@ namespace MagicVilla_web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> CreateVilla(VillaCreateDTO model)
         {
-            if(ModelState.IsValid)
+            if (ModelState.IsValid)
             {
                 var response = await villaSurvice.CreateAsync<APIResponse>(model);
 
@@ -85,6 +85,35 @@ namespace MagicVilla_web.Controllers
                     return RedirectToAction(nameof(IndexVilla));
                 }
             }
+
+            return View(model);
+        }
+
+        public async Task<IActionResult> DeleteVilla(int villaId)
+        {
+            var response = await villaSurvice.GetAsync<APIResponse>(villaId);
+
+            if (response != null && response.IsUsccess)
+            {
+                VillaDTO model = JsonConvert.DeserializeObject<VillaDTO>(Convert.ToString(response.Result));
+                return View(model);
+            }
+
+            return NotFound();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteVilla(VillaDTO model)
+        {
+
+            var response = await villaSurvice.DeleteAsync<APIResponse>(model.Id);
+
+            if (response != null && response.IsUsccess)
+            {
+                return RedirectToAction(nameof(IndexVilla));
+            }
+
 
             return View(model);
         }
