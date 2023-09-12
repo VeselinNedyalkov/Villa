@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using MagicVilla_web.Models.DTO;
-using MagicVilla_web.Services;
 using MagicVilla_web.Services.Contacts;
 using MagicVilMagicVilla_web.Models;
 using Microsoft.AspNetCore.Mvc;
