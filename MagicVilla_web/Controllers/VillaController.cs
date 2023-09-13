@@ -4,9 +4,6 @@ using MagicVilla_web.Services.Contacts;
 using MagicVilMagicVilla_web.Models;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
-using System.Collections.Generic;
-using System.Reflection;
-using System.Reflection.Metadata.Ecma335;
 
 namespace MagicVilla_web.Controllers
 {

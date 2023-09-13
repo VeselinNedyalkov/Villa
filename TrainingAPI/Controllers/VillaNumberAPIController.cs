@@ -13,15 +13,15 @@ namespace TrainingAPI.Controllers
     public class VillaNumberAPIController : ControllerBase
     {
         protected APIResponse response;
-        private IRepository villaDb;
+        private IRepository DbVilla;
         private readonly INumberRepository dbVillaNumber;
         private readonly IMapper mapper;
 
         public VillaNumberAPIController(INumberRepository _dbVillaNumber,
-            IMapper _mapper, IRepository _vilaDb)
+            IMapper _mapper, IRepository _DbVilla)
         {
             dbVillaNumber = _dbVillaNumber;
-            villaDb = _vilaDb;
+            DbVilla = _DbVilla;
             mapper = _mapper;
             this.response = new();
         }
@@ -40,7 +40,7 @@ namespace TrainingAPI.Controllers
             }
             catch (Exception ex)
             {
-                response.IsUsccess = false;
+                response.IsSuccess = false;
                 response.ErrorMessages = new List<string> { ex.ToString() };
             }
 
@@ -73,7 +73,7 @@ namespace TrainingAPI.Controllers
             }
             catch (Exception ex)
             {
-                response.IsUsccess = false;
+                response.IsSuccess = false;
                 response.ErrorMessages = new List<string> { ex.ToString() };
             }
             return response;
@@ -97,7 +97,7 @@ namespace TrainingAPI.Controllers
                     return BadRequest(ModelState);
                 }
 
-                if(await villaDb.GetVillaAsync(x => x.Id == createDto.VillaID) == null)
+                if(await DbVilla.GetVillaAsync(x => x.Id == createDto.VillaID) == null)
                 {
                     ModelState.AddModelError("CustomNameError", "Villa Id is invalid!");
 
@@ -121,7 +121,7 @@ namespace TrainingAPI.Controllers
             }
             catch (Exception ex)
             {
-                response.IsUsccess = false;
+                response.IsSuccess = false;
                 response.ErrorMessages = new List<string> { ex.ToString() };
             }
             return response;
@@ -163,7 +163,7 @@ namespace TrainingAPI.Controllers
                 return BadRequest(response);
             }
 
-            if (await villaDb.GetVillaAsync(x => x.Id == updateDTO.VillaID) == null)
+            if (await DbVilla.GetVillaAsync(x => x.Id == updateDTO.VillaID) == null)
             {
                 ModelState.AddModelError("CustomNameError", "Villa Id is invalid!");
 

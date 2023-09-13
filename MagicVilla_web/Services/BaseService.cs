@@ -14,7 +14,7 @@ namespace MagicVilla_web.Services
 
         public BaseService(IHttpClientFactory _httpClient)
         {
-            responseModel = new();
+            responseModel = new APIResponse();
             httpClient = _httpClient;
 
         }
