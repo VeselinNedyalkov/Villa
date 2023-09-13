@@ -2,7 +2,7 @@
 
 <form asp-action="UpdateVilla">
     <br />
-    <div class="constainer border p-3">
+    <div class="container border p-3">
         <h1 class="text-primary">Update Villa</h1>
         <hr />
 
@@ -65,19 +65,16 @@
                 <textarea asp-for="Amenity" class="form-control"></textarea>
                 <span asp-validation-for="Amenity" class="text-danger"></span>
             </div>
-        </div>
-
-        <div class="col-5 offset-2">
-            <a asp-action="IndexVilla" asp-controller="Villa" class="btn-primary btn form-control">
-                Back to List
-            </a>
-        </div>
-
-        <div class="col-5">
-            <input type="submit" value="Update" class="btn btn-success form-control" />
+            <div class="col-5 offset-2">
+                <a asp-action="IndexVilla" asp-controller="Villa" class="btn-primary btn form-control ">Back to List</a>
+            </div>
+            <div class="col-5">
+                <input type="submit" value="Update" class="btn btn-success form-control" />
+            </div>
         </div>
     </div>
 </form>
+
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />

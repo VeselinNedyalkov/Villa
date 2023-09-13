@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TrainingAPI.Data;
 
@@ -11,9 +12,11 @@ using TrainingAPI.Data;
 namespace TrainingAPI.Migrations
 {
     [DbContext(typeof(AplicationDbContext))]
-    partial class AplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230913093129_UpdateVilla")]
+    partial class UpdateVilla
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -43,7 +46,6 @@ namespace TrainingAPI.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Occupancy")
@@ -67,7 +69,7 @@ namespace TrainingAPI.Migrations
                         {
                             Id = 1,
                             Amenity = "",
-                            CreatedDate = new DateTime(2023, 9, 13, 12, 37, 41, 793, DateTimeKind.Local).AddTicks(7619),
+                            CreatedDate = new DateTime(2023, 9, 13, 12, 31, 29, 16, DateTimeKind.Local).AddTicks(8229),
                             Details = "Fusce 11 tincidunt maximus leo, sed scelerisque massa auctor sit amet. Donec ex mauris, hendrerit quis nibh ac, efficitur fringilla enim.",
                             ImageUrl = "https://dotnetmastery.com/bluevillaimages/villa3.jpg",
                             Name = "Royal Villa",
@@ -80,7 +82,7 @@ namespace TrainingAPI.Migrations
                         {
                             Id = 2,
                             Amenity = "",
-                            CreatedDate = new DateTime(2023, 9, 13, 12, 37, 41, 793, DateTimeKind.Local).AddTicks(7704),
+                            CreatedDate = new DateTime(2023, 9, 13, 12, 31, 29, 16, DateTimeKind.Local).AddTicks(8429),
                             Details = "Fusce 11 tincidunt maximus leo, sed scelerisque massa auctor sit amet. Donec ex mauris, hendrerit quis nibh ac, efficitur fringilla enim.",
                             ImageUrl = "https://dotnetmastery.com/bluevillaimages/villa1.jpg",
                             Name = "Premium Pool Villa",
@@ -93,7 +95,7 @@ namespace TrainingAPI.Migrations
                         {
                             Id = 3,
                             Amenity = "",
-                            CreatedDate = new DateTime(2023, 9, 13, 12, 37, 41, 793, DateTimeKind.Local).AddTicks(7707),
+                            CreatedDate = new DateTime(2023, 9, 13, 12, 31, 29, 16, DateTimeKind.Local).AddTicks(8432),
                             Details = "Fusce 11 tincidunt maximus leo, sed scelerisque massa auctor sit amet. Donec ex mauris, hendrerit quis nibh ac, efficitur fringilla enim.",
                             ImageUrl = "https://dotnetmastery.com/bluevillaimages/villa4.jpg",
                             Name = "Luxury Pool Villa",
@@ -106,7 +108,7 @@ namespace TrainingAPI.Migrations
                         {
                             Id = 4,
                             Amenity = "",
-                            CreatedDate = new DateTime(2023, 9, 13, 12, 37, 41, 793, DateTimeKind.Local).AddTicks(7710),
+                            CreatedDate = new DateTime(2023, 9, 13, 12, 31, 29, 16, DateTimeKind.Local).AddTicks(8434),
                             Details = "Fusce 11 tincidunt maximus leo, sed scelerisque massa auctor sit amet. Donec ex mauris, hendrerit quis nibh ac, efficitur fringilla enim.",
                             ImageUrl = "https://dotnetmastery.com/bluevillaimages/villa5.jpg",
                             Name = "Diamond Villa",
@@ -119,7 +121,7 @@ namespace TrainingAPI.Migrations
                         {
                             Id = 5,
                             Amenity = "",
-                            CreatedDate = new DateTime(2023, 9, 13, 12, 37, 41, 793, DateTimeKind.Local).AddTicks(7712),
+                            CreatedDate = new DateTime(2023, 9, 13, 12, 31, 29, 16, DateTimeKind.Local).AddTicks(8436),
                             Details = "Fusce 11 tincidunt maximus leo, sed scelerisque massa auctor sit amet. Donec ex mauris, hendrerit quis nibh ac, efficitur fringilla enim.",
                             ImageUrl = "https://dotnetmastery.com/bluevillaimages/villa2.jpg",
                             Name = "Diamond Pool Villa",

@@ -16,37 +16,70 @@ namespace TrainingAPI.Data
         public DbSet<VillaNumber> VillaNumbers { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Villa>()
-                .HasData(
-                new Villa
-                { 
-                    Id = 1, 
-                    Name = "Pool View", 
-                    Details = "Nice villa",
-                    Rate = 5,
-                    ImageUrl = "https://www.myluxoria.com/storage/app/uploads/public/630/77d/1e4/63077d1e4e7a2970728706.jpg",
-                    Sqft = 100, 
-                    Occupancy = 8 ,
-                    Amenity = "",
-                    CreatedTime = DateTime.Now,
-                    UpdatedTime = DateTime.Now,
-                },
+            base.OnModelCreating(modelBuilder);
+            modelBuilder.Entity<Villa>().HasData(
                 new Villa
                 {
-                    Id = 2,
-                    Name = "Sea view",
-                    Details = "10 people vilal with good villa",
-                    Rate = 5,
-                    ImageUrl = "https://media.architecturaldigest.com/photos/61b24b1bdf5163297d83ae8c/4:3/w_3763,h_2822,c_limit/Stella_Maris_Exterior.jpg",
-                    Sqft = 120,
-                    Occupancy = 15,
+                    Id = 1,
+                    Name = "Royal Villa",
+                    Details = "Fusce 11 tincidunt maximus leo, sed scelerisque massa auctor sit amet. Donec ex mauris, hendrerit quis nibh ac, efficitur fringilla enim.",
+                    ImageUrl = "https://dotnetmastery.com/bluevillaimages/villa3.jpg",
+                    Occupancy = 4,
+                    Rate = 200,
+                    Sqft = 550,
                     Amenity = "",
-                    CreatedTime = DateTime.Now,
-                    UpdatedTime = DateTime.Now,
-                }
-                );
+                    CreatedDate = DateTime.Now
+                },
+              new Villa
+              {
+                  Id = 2,
+                  Name = "Premium Pool Villa",
+                  Details = "Fusce 11 tincidunt maximus leo, sed scelerisque massa auctor sit amet. Donec ex mauris, hendrerit quis nibh ac, efficitur fringilla enim.",
+                  ImageUrl = "https://dotnetmastery.com/bluevillaimages/villa1.jpg",
+                  Occupancy = 4,
+                  Rate = 300,
+                  Sqft = 550,
+                  Amenity = "",
+                  CreatedDate = DateTime.Now
+              },
+              new Villa
+              {
+                  Id = 3,
+                  Name = "Luxury Pool Villa",
+                  Details = "Fusce 11 tincidunt maximus leo, sed scelerisque massa auctor sit amet. Donec ex mauris, hendrerit quis nibh ac, efficitur fringilla enim.",
+                  ImageUrl = "https://dotnetmastery.com/bluevillaimages/villa4.jpg",
+                  Occupancy = 4,
+                  Rate = 400,
+                  Sqft = 750,
+                  Amenity = "",
+                  CreatedDate = DateTime.Now
+              },
+              new Villa
+              {
+                  Id = 4,
+                  Name = "Diamond Villa",
+                  Details = "Fusce 11 tincidunt maximus leo, sed scelerisque massa auctor sit amet. Donec ex mauris, hendrerit quis nibh ac, efficitur fringilla enim.",
+                  ImageUrl = "https://dotnetmastery.com/bluevillaimages/villa5.jpg",
+                  Occupancy = 4,
+                  Rate = 550,
+                  Sqft = 900,
+                  Amenity = "",
+                  CreatedDate = DateTime.Now
+              },
+              new Villa
+              {
+                  Id = 5,
+                  Name = "Diamond Pool Villa",
+                  Details = "Fusce 11 tincidunt maximus leo, sed scelerisque massa auctor sit amet. Donec ex mauris, hendrerit quis nibh ac, efficitur fringilla enim.",
+                  ImageUrl = "https://dotnetmastery.com/bluevillaimages/villa2.jpg",
+                  Occupancy = 4,
+                  Rate = 600,
+                  Sqft = 1100,
+                  Amenity = "",
+                  CreatedDate = DateTime.Now
+              });
 
-            base.OnModelCreating(modelBuilder);
+            
         }
     }
 }

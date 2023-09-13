@@ -1,5 +1,4 @@
-﻿using System.Linq.Expressions;
-using TrainingAPI.Models.DTO;
+﻿using TrainingAPI.Models.DTO;
 
 namespace TrainingAPI.Repository.Contracts
 {

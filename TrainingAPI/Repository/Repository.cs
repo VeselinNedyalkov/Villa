@@ -16,7 +16,7 @@ namespace TrainingAPI.Repository
 
         public async Task<Villa> UpdateAsync(Villa entity)
         {
-            entity.UpdatedTime = DateTime.Now;
+            entity.UpdatedDate = DateTime.Now;
             db.Villas.Update(entity);
             await db.SaveChangesAsync();
             return entity;

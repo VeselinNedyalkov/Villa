@@ -64,7 +64,8 @@ namespace TrainingAPI.Controllers
 
                 if (villa == null)
                 {
-                    return NotFound();
+                    response.StatusCode = HttpStatusCode.NotFound;
+                    return NotFound(response);
                 }
 
                 response.Result = mapper.Map<VillaNumberDTO>(villa);
@@ -135,8 +136,7 @@ namespace TrainingAPI.Controllers
         {
             if (id == 0)
             {
-                response.StatusCode = HttpStatusCode.BadRequest;
-                return BadRequest(response);
+                return BadRequest();
             }
 
             var villa = await dbVillaNumber.GetVillaAsync(x => x.VillaNo == id);
@@ -147,41 +147,43 @@ namespace TrainingAPI.Controllers
             }
 
             await dbVillaNumber.RemoveAsync(villa);
+            response.StatusCode = HttpStatusCode.NoContent;
+            response.IsSuccess = true;
 
-            return NoContent();
+            return Ok(response);
         }
 
 
         [HttpPut("id", Name = "UpdateVillaNumber")]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
-        public async Task<IActionResult> UpdateVillaNumber(int id, [FromBody] VillaUpdateNumberDTO updateDTO)
+        public async Task<ActionResult<APIResponse>> UpdateVillaNumber(int id, [FromBody] VillaUpdateNumberDTO updateDTO)
         {
-            if (updateDTO == null || id != updateDTO.VillaNo)
+            try
             {
-                response.StatusCode = HttpStatusCode.BadRequest;
-                return BadRequest(response);
-            }
+                if (updateDTO == null || id != updateDTO.VillaNo)
+                {
+                    return BadRequest();
+                }
+                if (await DbVilla.GetVillaAsync(u => u.Id == updateDTO.VillaID) == null)
+                {
+                    ModelState.AddModelError("ErrorMessages", "Villa ID is Invalid!");
+                    return BadRequest(ModelState);
+                }
+                VillaNumber model = mapper.Map<VillaNumber>(updateDTO);
 
-            if (await DbVilla.GetVillaAsync(x => x.Id == updateDTO.VillaID) == null)
+                await dbVillaNumber.UpdateNumberAsync(model);
+                response.StatusCode = HttpStatusCode.NoContent;
+                response.IsSuccess = true;
+                return Ok(response);
+            }
+            catch (Exception ex)
             {
-                ModelState.AddModelError("CustomNameError", "Villa Id is invalid!");
-
-                return BadRequest(ModelState);
+                response.IsSuccess = false;
+                response.ErrorMessages
+                     = new List<string>() { ex.ToString() };
             }
-
-            var villa = await dbVillaNumber.GetVillaAsync(x => x.VillaNo == id);
-
-            if (villa == null)
-            {
-                return BadRequest();
-            }
-
-            VillaNumber model = mapper.Map<VillaNumber>(updateDTO);
-
-            await dbVillaNumber.UpdateNumberAsync(model);
-
-            return NoContent();
+            return response;
         }
        
     }

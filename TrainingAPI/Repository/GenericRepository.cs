@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 using TrainingAPI.Data;
-using TrainingAPI.Models.DTO;
 using TrainingAPI.Repository.Contracts;
 
 namespace TrainingAPI.Repository
@@ -21,7 +20,7 @@ namespace TrainingAPI.Repository
         public async Task CreateAsync(T entity)
         {
             await dbSet.AddAsync(entity);
-            await Save();
+            await SaveAsync();
         }
 
         public async Task<T> GetVillaAsync(Expression<Func<T, bool>> filter = null, bool tracked = true, string? includeProperties = null)
@@ -77,10 +76,10 @@ namespace TrainingAPI.Repository
         public async Task RemoveAsync(T entity)
         {
             dbSet.Remove(entity);
-            await Save();
+            await SaveAsync();
         }
 
-        public async Task Save()
+        public async Task SaveAsync()
         {
             await db.SaveChangesAsync();
         }
