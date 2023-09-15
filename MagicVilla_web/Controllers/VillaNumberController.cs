@@ -51,18 +51,20 @@ namespace MagicVilla_web.Controllers
                         Text = i.Name,
                         Value = i.Id.ToString()
                     });
-            }
 
             return View(villaNUmberCreateVM);
+            }
+
+            return NotFound(villaNUmberCreateVM);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CreateVillaNumber(VillaCreateNumberDTO model)
+        public async Task<IActionResult> CreateVillaNumber(VillaNUmberCreateVM model)
         {
             if (ModelState.IsValid)
             {
-                var response = await villaNumberSurvice.CreateAsync<APIResponse>(model);
+                var response = await villaNumberSurvice.CreateAsync<APIResponse>(model.VillaNumber);
 
                 if (response != null && response.IsUsccess)
                 {
@@ -70,6 +72,17 @@ namespace MagicVilla_web.Controllers
                 }
             }
 
+            var resp = await villaSurvice.GetAllAsync<APIResponse>();
+
+            if (resp != null && resp.IsUsccess)
+            {
+                model.VillaList = JsonConvert.DeserializeObject<List<VillaDTO>>
+                    (Convert.ToString(resp.Result)).Select(i => new SelectListItem
+                    {
+                        Text = i.Name,
+                        Value = i.Id.ToString()
+                    });
+            }
             return View(model);
         }
 

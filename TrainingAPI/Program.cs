@@ -11,7 +11,7 @@ builder.Services.AddDbContext<AplicationDbContext>(option =>
 {
     option.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConenctio"));
 });
-builder.Services.AddScoped<IRepository , Repository>();
+builder.Services.AddScoped<IVillaRepository , VillaRepository>();
 builder.Services.AddScoped<INumberRepository, NumberRepository>();
 builder.Services.AddAutoMapper(typeof(MappingConfig));
 builder.Services.AddControllers().AddNewtonsoftJson();

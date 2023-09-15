@@ -13,12 +13,12 @@ namespace TrainingAPI.Controllers
     public class VillaNumberAPIController : ControllerBase
     {
         protected APIResponse response;
-        private IRepository DbVilla;
+        private IVillaRepository DbVilla;
         private readonly INumberRepository dbVillaNumber;
         private readonly IMapper mapper;
 
         public VillaNumberAPIController(INumberRepository _dbVillaNumber,
-            IMapper _mapper, IRepository _DbVilla)
+            IMapper _mapper, IVillaRepository _DbVilla)
         {
             dbVillaNumber = _dbVillaNumber;
             DbVilla = _DbVilla;
@@ -100,7 +100,7 @@ namespace TrainingAPI.Controllers
 
                 if(await DbVilla.GetVillaAsync(x => x.Id == createDto.VillaID) == null)
                 {
-                    ModelState.AddModelError("CustomNameError", "Villa Id is invalid!");
+                    ModelState.AddModelError("ErrorMessages", "Villa Id is invalid!");
 
                     return BadRequest(ModelState);
                 }

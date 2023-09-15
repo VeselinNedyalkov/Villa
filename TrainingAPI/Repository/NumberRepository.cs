@@ -4,7 +4,7 @@ using TrainingAPI.Repository.Contracts;
 
 namespace TrainingAPI.Repository
 {
-    public class NumberRepository : GenericRepository<VillaNumber>, INumberRepository
+    public class NumberRepository : Repository<VillaNumber>, INumberRepository
     {
         private readonly AplicationDbContext db;
 

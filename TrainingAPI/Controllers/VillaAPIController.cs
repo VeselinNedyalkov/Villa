@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using Azure;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
@@ -14,10 +13,10 @@ namespace TrainingAPI.Controllers
     public class VillaAPIController : ControllerBase
     {
         protected APIResponse response;
-        private readonly IRepository dbVilla;
+        private readonly IVillaRepository dbVilla;
         private readonly IMapper mapper;
 
-        public VillaAPIController(IRepository _dbVilla, IMapper _mapper)
+        public VillaAPIController(IVillaRepository _dbVilla, IMapper _mapper)
         {
             dbVilla = _dbVilla;
             mapper = _mapper;
@@ -91,7 +90,7 @@ namespace TrainingAPI.Controllers
             {
                 if (await dbVilla.GetVillaAsync(x => x.Name.ToLower() == createDto.Name) != null)
                 {
-                    ModelState.AddModelError("CustomNameError", "Villa already Exists!");
+                    ModelState.AddModelError("ErrorMessages", "Villa already Exists!");
                     return BadRequest(ModelState);
                 }
                 if (createDto == null)

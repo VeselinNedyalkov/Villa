@@ -8,7 +8,8 @@ namespace TrainingAPI.Models
     {
         [Key, DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int VillaNo { get; set; }
-        [ForeignKey("Villa")]
+
+        [ForeignKey(nameof(Villa))]
         public int VillaID { get; set; }
         public Villa Villa { get; set; }
         public string SpecialDeails { get; set; }

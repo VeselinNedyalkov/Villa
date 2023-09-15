@@ -1,10 +1,13 @@
-﻿using TrainingAPI.Models.DTO;
+﻿using System.Linq.Expressions;
 
 namespace TrainingAPI.Repository.Contracts
 {
-    public interface IRepository : IRepopositoryGeneric<Villa>
+    public interface IRepository<T> where T : class
     {
-        Task<Villa> UpdateAsync(Villa entity);
-        
+        Task RemoveAsync(T entity);
+        Task<List<T>> GetAllAsync(Expression<Func<T, bool>>? filter = null, string? includeProperties = null);
+        Task<T> GetVillaAsync(Expression<Func<T, bool>> filter = null, bool tracked = true, string? includeProperties = null);
+        Task CreateAsync(T entity);
+        Task SaveAsync();
     }
 }
