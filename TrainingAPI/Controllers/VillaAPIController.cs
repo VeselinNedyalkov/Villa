@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
@@ -25,6 +26,7 @@ namespace TrainingAPI.Controllers
 
 
         [HttpGet]
+        [Authorize]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<APIResponse>> GetAllVillas()
         {
@@ -45,6 +47,8 @@ namespace TrainingAPI.Controllers
         }
 
         [HttpGet("id", Name = "GetVilla")] //expect parameter id
+
+        [Authorize(Roles = "admin")]
         [ProducesResponseType(StatusCodes.Status200OK)] //document possible code response
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -117,6 +121,7 @@ namespace TrainingAPI.Controllers
         }
 
         [HttpDelete("id", Name = "DeleteVilla")]
+        [Authorize(Roles = "admin")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
