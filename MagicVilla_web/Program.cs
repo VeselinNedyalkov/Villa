@@ -1,6 +1,7 @@
 using MagicVilla_web;
 using MagicVilla_web.Services;
 using MagicVilla_web.Services.Contacts;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,6 +14,26 @@ builder.Services.AddScoped<IVillaSurvice, VillaSurvice>();
 
 builder.Services.AddHttpClient<IVillaNumberSurvice, VillaNumberSurvice>();
 builder.Services.AddScoped<IVillaNumberSurvice, VillaNumberSurvice>();
+builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+builder.Services.AddHttpClient<IAuthService, AuthService>();
+builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddDistributedMemoryCache();
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddCookie(option =>
+    {
+        option.Cookie.HttpOnly = true;
+        option.ExpireTimeSpan = TimeSpan.FromMinutes(30);
+        option.LoginPath = "/Auth/Login";
+        option.AccessDeniedPath = "/Auth/AccessDenied";
+        option.SlidingExpiration = true;
+    });
+
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromMinutes(100);
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
+});
 
 var app = builder.Build();
 
@@ -29,8 +50,10 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
-app.UseAuthorization();
+app.UseAuthentication();
 
+app.UseAuthorization();
+app.UseSession();
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");

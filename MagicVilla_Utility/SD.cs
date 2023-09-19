@@ -15,5 +15,6 @@ namespace MagicVilla_Utility
             Put,
             Delete
         }
+        public static string SessionToken = "JWTToken";
     }
 }

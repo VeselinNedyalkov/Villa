@@ -2,6 +2,7 @@
 using MagicVilla_web.Models.DTO;
 using MagicVilla_web.Services.Contacts;
 using MagicVilMagicVilla_web.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 
@@ -32,7 +33,7 @@ namespace MagicVilla_web.Controllers
             return View(list);
         }
 
-
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> CreateVilla()
         {
 
@@ -57,6 +58,7 @@ namespace MagicVilla_web.Controllers
             return View(model);
         }
 
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> UpdateVilla(int villaId)
         {
             var response = await villaSurvice.GetAsync<APIResponse>(villaId);
@@ -89,6 +91,7 @@ namespace MagicVilla_web.Controllers
             return View(model);
         }
 
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> DeleteVilla(int villaId)
         {
             var response = await villaSurvice.GetAsync<APIResponse>(villaId);

@@ -28,6 +28,7 @@ namespace TrainingAPI.Controllers
         [HttpGet]
         [Authorize]
         [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<ActionResult<APIResponse>> GetAllVillas()
         {
             try
@@ -47,10 +48,10 @@ namespace TrainingAPI.Controllers
         }
 
         [HttpGet("id", Name = "GetVilla")] //expect parameter id
-
         [Authorize(Roles = "admin")]
         [ProducesResponseType(StatusCodes.Status200OK)] //document possible code response
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<APIResponse>> GetVilla(int id)
         {
@@ -123,6 +124,8 @@ namespace TrainingAPI.Controllers
         [HttpDelete("id", Name = "DeleteVilla")]
         [Authorize(Roles = "admin")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<APIResponse>> DeleteVilla(int id)
