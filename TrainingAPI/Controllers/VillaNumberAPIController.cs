@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Azure;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 using TrainingAPI.Models;
@@ -79,7 +80,7 @@ namespace TrainingAPI.Controllers
             }
             return response;
         }
-
+        [Authorize(Roles = "admin")]
         [HttpPost(Name = "Create new villa number")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status201Created)]
@@ -128,6 +129,7 @@ namespace TrainingAPI.Controllers
             return response;
         }
 
+        [Authorize(Roles = "admin")]
         [HttpDelete("id", Name = "Delete Villa number")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -153,7 +155,7 @@ namespace TrainingAPI.Controllers
             return Ok(response);
         }
 
-
+        [Authorize(Roles = "admin")]
         [HttpPut("id", Name = "UpdateVillaNumber")]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]

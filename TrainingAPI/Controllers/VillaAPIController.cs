@@ -26,7 +26,9 @@ namespace TrainingAPI.Controllers
 
 
         [HttpGet]
-        [Authorize]
+        [ResponseCache(CacheProfileName = "Default30")]
+        //[ResponseCache(Location = ResponseCacheLocation.None, NoStore = true)]
+        //cache the data for 30 sec
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<ActionResult<APIResponse>> GetAllVillas()
@@ -48,7 +50,7 @@ namespace TrainingAPI.Controllers
         }
 
         [HttpGet("id", Name = "GetVilla")] //expect parameter id
-        [Authorize(Roles = "admin")]
+        [ResponseCache(CacheProfileName = "Default30")]
         [ProducesResponseType(StatusCodes.Status200OK)] //document possible code response
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
@@ -83,6 +85,7 @@ namespace TrainingAPI.Controllers
         }
 
         [HttpPost(Name = "Create new villa")]
+        [Authorize(Roles = "admin")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -160,7 +163,7 @@ namespace TrainingAPI.Controllers
             return response;
         }
 
-
+        [Authorize(Roles = "admin")]
         [HttpPut("id", Name = "UpdateVilla")]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
