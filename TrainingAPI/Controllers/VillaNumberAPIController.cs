@@ -59,6 +59,8 @@ namespace TrainingAPI.Controllers
                 if (id == 0)
                 {
                     response.StatusCode = HttpStatusCode.BadRequest;
+                    response.IsSuccess = false;
+                    response.ErrorMessages.Add("Id is 0");
                     return BadRequest(response);
                 }
                 var villa = await dbVillaNumber.GetVillaAsync(u => u.VillaNo == id);
@@ -138,7 +140,10 @@ namespace TrainingAPI.Controllers
         {
             if (id == 0)
             {
-                return BadRequest();
+                response.StatusCode = HttpStatusCode.BadRequest;
+                response.IsSuccess = false;
+                response.ErrorMessages.Add("Data is missing");
+                return BadRequest(response);
             }
 
             var villa = await dbVillaNumber.GetVillaAsync(x => x.VillaNo == id);
@@ -165,7 +170,10 @@ namespace TrainingAPI.Controllers
             {
                 if (updateDTO == null || id != updateDTO.VillaNo)
                 {
-                    return BadRequest();
+                    response.StatusCode = HttpStatusCode.BadRequest;
+                    response.IsSuccess = false;
+                    response.ErrorMessages.Add("Data is missing");
+                    return BadRequest(response);
                 }
                 if (await DbVilla.GetVillaAsync(u => u.Id == updateDTO.VillaID) == null)
                 {

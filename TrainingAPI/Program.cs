@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -6,6 +7,7 @@ using Microsoft.OpenApi.Models;
 using System.Text;
 using TrainingAPI;
 using TrainingAPI.Data;
+using TrainingAPI.Models;
 using TrainingAPI.Repository;
 using TrainingAPI.Repository.Contracts;
 
@@ -16,6 +18,8 @@ builder.Services.AddDbContext<AplicationDbContext>(option =>
 {
     option.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConenctio"));
 });
+builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
+    .AddEntityFrameworkStores<AplicationDbContext>();
 builder.Services.AddResponseCaching();
 builder.Services.AddScoped<IVillaRepository, VillaRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();

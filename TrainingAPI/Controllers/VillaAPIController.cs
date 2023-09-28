@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
+using System.Text.Json;
 using TrainingAPI.Models;
 using TrainingAPI.Models.DTO;
 using TrainingAPI.Repository.Contracts;
@@ -31,11 +32,30 @@ namespace TrainingAPI.Controllers
         //cache the data for 30 sec
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        public async Task<ActionResult<APIResponse>> GetAllVillas()
+        public async Task<ActionResult<APIResponse>> GetAllVillas([FromQuery(Name = "FilterOccupancy")] int? occupancy,
+            [FromQuery] string? search,int pageSize = 0, int pageNumber = 1)
         {
             try
             {
-                IEnumerable<Villa> villas = await dbVilla.GetAllAsync();
+                IEnumerable<Villa> villas;
+
+                if (occupancy > 0)
+                {
+                    villas = await dbVilla.GetAllAsync(v => v.Occupancy == occupancy, pageSize:pageSize,
+                        pageNumber:pageNumber);
+                }
+                else
+                {
+                    villas = await dbVilla.GetAllAsync(pageSize: pageSize,
+                        pageNumber: pageNumber);
+                }
+                if (!string.IsNullOrEmpty(search))
+                {
+                    villas = villas.Where(u => u.Name.ToLower().Contains(search));
+                }
+                Pagination pagination = new Pagination() { PageNumber = pageNumber, PageSize = pageSize};
+
+                Response.Headers.Add("X-Pagination", JsonSerializer.Serialize(pagination));
                 response.Result = mapper.Map<List<VillaDTO>>(villas);
                 response.StatusCode = HttpStatusCode.OK;
                 return Ok(response);
@@ -62,6 +82,8 @@ namespace TrainingAPI.Controllers
                 if (id == 0)
                 {
                     response.StatusCode = HttpStatusCode.BadRequest;
+                    response.IsSuccess = false;
+                    response.ErrorMessages.Add("Id is 0");
                     return BadRequest(response);
                 }
                 var villa = await dbVilla.GetVillaAsync(u => u.Id == id);
@@ -91,8 +113,6 @@ namespace TrainingAPI.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<APIResponse>> CreateVilla([FromBody] VillaCreateDTO createDto)
         {
-            //we need this if we don`t use  [ApiController] for the class
-            //if(ModelState.IsValid) { }
 
             try
             {
@@ -103,7 +123,10 @@ namespace TrainingAPI.Controllers
                 }
                 if (createDto == null)
                 {
-                    return BadRequest(createDto);
+                    response.StatusCode = HttpStatusCode.BadRequest;
+                    response.IsSuccess = false;
+                    response.ErrorMessages.Add("Data is missing");
+                    return BadRequest(response);
                 }
 
                 Villa villa = mapper.Map<Villa>(createDto);
@@ -173,7 +196,10 @@ namespace TrainingAPI.Controllers
             {
                 if (updateDTO == null || id != updateDTO.Id)
                 {
-                    return BadRequest();
+                    response.StatusCode = HttpStatusCode.BadRequest;
+                    response.IsSuccess = false;
+                    response.ErrorMessages.Add("Data is missing");
+                    return BadRequest(response);
                 }
 
                 Villa model = mapper.Map<Villa>(updateDTO);
@@ -200,7 +226,10 @@ namespace TrainingAPI.Controllers
         {
             if (patchDTO == null || id == 0)
             {
-                return BadRequest();
+                response.StatusCode = HttpStatusCode.BadRequest;
+                response.IsSuccess = false;
+                response.ErrorMessages.Add("Data is missing");
+                return BadRequest(response);
             }
             var villa = await dbVilla.GetVillaAsync(u => u.Id == id, tracked: false);
 
@@ -209,7 +238,10 @@ namespace TrainingAPI.Controllers
 
             if (villa == null)
             {
-                return BadRequest();
+                response.StatusCode = HttpStatusCode.BadRequest;
+                response.IsSuccess = false;
+                response.ErrorMessages.Add("Data is missing");
+                return BadRequest(response);
             }
             patchDTO.ApplyTo(villaDTO, ModelState);
             Villa model = mapper.Map<Villa>(villaDTO);
