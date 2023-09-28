@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using TrainingAPI.Models;
 using TrainingAPI.Models.DTO;
@@ -9,9 +10,9 @@ namespace TrainingAPI.Data
     {
 
         public AplicationDbContext(DbContextOptions<AplicationDbContext> options)
-            :base(options) 
+            : base(options)
         {
-                
+
         }
 
         public DbSet<ApplicationUser> ApplicationUsers { get; set; }
@@ -21,7 +22,8 @@ namespace TrainingAPI.Data
         public DbSet<VillaNumber> VillaNumbers { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            base.OnModelCreating(modelBuilder);
+
+
             modelBuilder.Entity<Villa>().HasData(
                 new Villa
                 {
@@ -84,7 +86,8 @@ namespace TrainingAPI.Data
                   CreatedDate = DateTime.Now
               });
 
-            
+            base.OnModelCreating(modelBuilder);
+
         }
     }
 }

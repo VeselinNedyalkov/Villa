@@ -1,5 +1,4 @@
-﻿using TrainingAPI.Models;
-using TrainingAPI.Models.DTO;
+﻿using TrainingAPI.Models.DTO;
 
 namespace TrainingAPI.Repository.Contracts
 {
@@ -8,6 +7,6 @@ namespace TrainingAPI.Repository.Contracts
         bool IsUniqueUser(string username);
         Task<LoginResponseDTO> Login(LoginRequestDTO loginRequesDto);
 
-        Task<LocalUser> Register(RegistrationRequestDTO registrationRequesDto);
+        Task<UserDTO> Register(RegistrationRequestDTO registrationRequesDto);
     }
 }
